@@ -45,3 +45,5 @@ vor |>
 ```
 
 <p align="center"><img src="https://github.com/kssrr/tessellatr/assets/121236725/2bca6da5-2cdd-4c56-b8cc-e679876dea02" alt="Random Voronoi Polygons" width="400"></p>
+
+You can also specify a fixed number of points to generate; by default, as many points as possible without violating the minimum distance will be placed. For some objects, you may need to turn off spherical geometry: `sf::sf_use_s2(FALSE)`.
