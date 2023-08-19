@@ -1,0 +1,10 @@
+Package: tessellatr
+Title: Genereate quasi-random points and tiles inside `sf` objects.
+Version: 0.0.0.9000
+Authors@R: 
+    person("Lennart", "Kasserra", , "lennart.kasserra@gmail.com", role = c("aut", "cre"))
+Description: Wrappers for `spatstat.random::rSSI()` to generate quasi-random points and tiles within `sf`-POLYGONS or MULTIPOLYGONS.
+License: `use_mit_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
