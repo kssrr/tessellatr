@@ -26,25 +26,25 @@
 #'   geom_sf(germany_pts, mapping = aes()) +
 #'   theme_void()
 #' @export
-st_random_points <- function(polygon, .n = Inf, .min_dist, .planar_crs = NA, ...) {
+st_random_points <- function(polygon, min_dist, n = Inf, planar_crs = NA, ...) {
   origin_crs <- sf::st_crs(polygon)
   web_mercator <- "+proj=utm +zone=33 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
   
-  if (is.na(.planar_crs)) {
-    .planar_crs <- web_mercator
+  if (is.na(planar_crs)) {
+    planar_crs <- web_mercator
   }
   
   # Transform to planar:
   polygon_planar <- 
     polygon |> 
     sf::st_union() |> 
-    sf::st_transform(.planar_crs) |> 
+    sf::st_transform(planar_crs) |> 
     spatstat.geom::as.owin()
   
   # Random points:
   pts <- spatstat.random::rSSI(
-    r = .min_dist,
-    n = .n,
+    r = min_dist,
+    n = n,
     win = polygon_planar,
     ...
   )
@@ -52,7 +52,7 @@ st_random_points <- function(polygon, .n = Inf, .min_dist, .planar_crs = NA, ...
   # Coerce back into `sf`-obj:
   pts_sf <- sf::st_as_sf(pts)
   pts_sf <- pts_sf[pts_sf$label != "window", ]
-  sf::st_crs(pts_sf) <- .planar_crs
+  sf::st_crs(pts_sf) <- planar_crs
   
   # Transform back to origin CRS:
   sf::st_transform(pts_sf, crs = origin_crs)
@@ -86,7 +86,13 @@ st_random_points <- function(polygon, .n = Inf, .min_dist, .planar_crs = NA, ...
 st_random_voronoi <- function(polygon, min_dist, n = Inf, planar_crs = NA, ...) {
   
   message("Generating centroids...\n")
-  pts <- st_random_points(polygon, .n = n, .min_dist = min_dist, .planar_crs = planar_crs, ...)
+  pts <- st_random_points(
+    polygon = polygon, 
+    min_dist = min_dist, 
+    n = n, 
+    planar_crs = planar_crs, 
+    ...
+  )
   
   message("Tessellating...\n")
   geom <- 

@@ -39,7 +39,7 @@ germany  |>
 So here, the unit is metres. We can now generate the random points, passing the minimum distance in metres:
 
 ```{r}
-pts <- tessellatr::st_random_points(germany, .min_dist = 20000) # = 20km
+pts <- tessellatr::st_random_points(germany, min_dist = 20000) # = 20km
 ```
 
 Let's get a look at the result:
