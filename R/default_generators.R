@@ -101,3 +101,11 @@ st_random_voronoi <- function(polygon, min_dist, n = Inf, planar_crs = NA, ...) 
   
   geom[, c("id", "geom")]
 }
+
+germany <- rnaturalearth::ne_countries(country = "Germany", returnclass = "sf")
+
+germany  |> 
+  sf::st_crs()  |> 
+  unclass()  |> 
+  _$wkt  |> 
+  stringr::str_extract('LENGTHUNIT\\[(.*)\\]')

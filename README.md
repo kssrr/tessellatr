@@ -18,13 +18,34 @@ Alternatively, you can just copy the functions from `R/default_generators.R` int
 
 ## Example usage
 
-First, we need a POLYGON or MULTIPOLYGON object. Both `st_random_points()` and `st_random_voronoi()` require you to specify a minimum distance between the points for sampling; the unit here is the unit of the CRS of the POLYGON (for example, meters for WGS84):
+First, we need a POLYGON or MULTIPOLYGON object:
+
+```{r}
+germany <- rnaturalearth::ne_countries(country = "Germany", returnclass = "sf")
+```
+
+ Both `st_random_points()` and `st_random_voronoi()` require you to specify a minimum distance between the points for sampling; the unit here is the unit of the CRS of the POLYGON, which you can check with `sf::st_crs()`:
+
+```{r}
+germany  |> 
+  sf::st_crs()  |> 
+  unclass()  |> 
+  _$wkt  |> 
+  stringr::str_extract('LENGTHUNIT\\[(.*)\\]')
+
+#> "LENGTHUNIT[\"metre\",1]]]"
+```
+
+So here, the unit is metres. We can now generate the random points, passing the minimum distance in metres:
+
+```{r}
+pts <- tessellatr::st_random_points(germany, .min_dist = 20000) # = 20km
+```
+
+Let's get a look at the result:
 
 ```{r}
 library(ggplot2)
-
-germany <- rnaturalearth::ne_countries(country = "Germany", returnclass = "sf")
-pts <- tessellatr::st_random_points(germany, .min_dist = 20000) # distance in m. for this CRS
 
 germany |> 
   ggplot() +
@@ -34,6 +55,8 @@ germany |>
 ```
 
 <p align="center"><img src="https://github.com/kssrr/tessellatr/assets/121236725/71a1d871-8380-4a80-904e-71dca130fcb2" alt="Random Points" width="400"></p>
+
+The same works for `st_random_voronoi()` (here, a minimum distance of 20'000 means that the _centroids_ of the tiles will always be at least 20 kilometres apart.):
 
 ```{r}
 vor <- tessellatr::st_random_voronoi(germany, 20000)
