@@ -7,10 +7,10 @@
 #' you may need to turn spherical geometry off (`sf::sf_use_s2(FALSE)`)
 #' 
 #' @param polygon Boundary polygon
-#' @param .n How many points to place (defaults to `Inf`, meaning as many points as
+#' @param min_dist Minimum distance between points (in units of `polygon`'s CRS). 
+#' @param n How many points to place (defaults to `Inf`, meaning as many points as
 #' possible will be fit)
-#' @param .min_dist Minimum distance between points (in units of `polygon`'s CRS). 
-#' @param .planar_crs Planar CRS to use for coercion to `spatstat`-object; defaults
+#' @param planar_crs Planar CRS to use for coercion to `spatstat`-object; defaults
 #' to Web Mercator.
 #' @param ... Additional arguments to pass to `spatstat.random::rSSI()`
 #' @return A `sf`-object of type POINT.
@@ -18,7 +18,7 @@
 #' library(ggplot2)
 #'
 #' germany <- rnaturalearth::ne_countries(country = "Germany", returnclass = "sf")["admin"]
-#' germany_pts <- st_random_points(germany, .min_dist = 40000)
+#' germany_pts <- st_random_points(germany, min_dist = 40000)
 #'
 #' germany |> 
 #'   ggplot() +

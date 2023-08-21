@@ -4,17 +4,17 @@
 \alias{st_random_points}
 \title{Generate random points using Simple Sequential Inhibition}
 \usage{
-st_random_points(polygon, .n = Inf, .min_dist, .planar_crs = NA, ...)
+st_random_points(polygon, min_dist, n = Inf, planar_crs = NA, ...)
 }
 \arguments{
 \item{polygon}{Boundary polygon}
 
-\item{.n}{How many points to place (defaults to \code{Inf}, meaning as many points as
+\item{min_dist}{Minimum distance between points (in units of \code{polygon}'s CRS).}
+
+\item{n}{How many points to place (defaults to \code{Inf}, meaning as many points as
 possible will be fit)}
 
-\item{.min_dist}{Minimum distance between points (in units of \code{polygon}'s CRS).}
-
-\item{.planar_crs}{Planar CRS to use for coercion to \code{spatstat}-object; defaults
+\item{planar_crs}{Planar CRS to use for coercion to \code{spatstat}-object; defaults
 to Web Mercator.}
 
 \item{...}{Additional arguments to pass to \code{spatstat.random::rSSI()}}
@@ -31,7 +31,7 @@ you may need to turn spherical geometry off (\code{sf::sf_use_s2(FALSE)})
 library(ggplot2)
 
 germany <- rnaturalearth::ne_countries(country = "Germany", returnclass = "sf")["admin"]
-germany_pts <- st_random_points(germany, .min_dist = 40000)
+germany_pts <- st_random_points(germany, min_dist = 40000)
 
 germany |> 
   ggplot() +
