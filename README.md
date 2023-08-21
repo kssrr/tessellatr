@@ -33,7 +33,7 @@ germany  |>
   _$wkt  |> 
   stringr::str_extract('LENGTHUNIT\\[(.*)\\]')
 
-#> "LENGTHUNIT[\"metre\",1]]]"
+#> [1] "LENGTHUNIT[\"metre\",1]]]"
 ```
 
 So here, the unit is metres. We can now generate the random points, passing the minimum distance in metres:
