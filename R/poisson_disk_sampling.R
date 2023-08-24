@@ -136,8 +136,6 @@ poisson_disk_sampling <- function(polygon, min_dist, planar_crs = NA, k = 30, co
           }
         }
         
-        # It should already be appended here to circumvent this:
-        
         grid$contains_point[grid$id == containing_cell] <- TRUE
         candidates$grid_id[i] <- containing_cell
         
